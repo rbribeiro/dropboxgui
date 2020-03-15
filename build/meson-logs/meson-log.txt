@@ -1,14 +1,14 @@
-Build started at 2020-03-15T11:48:03.511934
+Build started at 2020-03-15T19:11:47.346802
 Main binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
 Version: 0.49.2
-Source dir: /home/rodrigo/Public/ValaCounter
-Build dir: /home/rodrigo/Public/ValaCounter/build
+Source dir: /home/rodrigo/Public/dropboxgui
+Build dir: /home/rodrigo/Public/dropboxgui/build
 Build type: native build
-Project name: com.valacounterapp
+Project name: com.github.rbribeiro.dropboxgui
 Project version: undefined
-Native C compiler: cc (gcc 7.4.0 "cc (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0")
+Native C compiler: cc (gcc 7.5.0 "cc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0")
 Native Vala compiler: valac (valac 0.40.19)
 Build machine cpu family: x86_64
 Build machine cpu: x86_64
@@ -18,8 +18,8 @@ Dependency granite found: YES (cached)
 Build targets in project: 1
 Found ninja-1.8.2 at /usr/bin/ninja
 Running compile:
-Working directory:  /tmp/tmpumnmg8ws
-Command line:  cc /tmp/tmpumnmg8ws/testfile.c -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmpumnmg8ws/output.obj -O0 --print-search-dirs 
+Working directory:  /tmp/tmps49585hx
+Command line:  cc /tmp/tmps49585hx/testfile.c -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmps49585hx/output.obj -O0 --print-search-dirs 
 
 Code:
  

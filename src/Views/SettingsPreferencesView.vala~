@@ -14,7 +14,7 @@ public class SettingsPreferencesPage : Granite.SimpleSettingsPage {
 
         construct {
         
-            var glib_settings =  new GLib.Settings ("com.github.rbribeiro.dropboxgui");
+            var glib_settings =  new GLib.Settings ("com.valacounterapp");
             
             var gtk_settings = Gtk.Settings.get_default ();
 

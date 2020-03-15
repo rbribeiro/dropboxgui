@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2019 Rodrigo Ribeiro <rb.ribeiro9@gmail.com> -->
+<component type="desktop">
+  <id>com.github.rbribeiro.dropboxgui</id>
+  <metadata_license>CC0</metadata_license>
+  <name>Dropbox GUI</name>
+  <summary>Friendly GUI for Dropbox</summary>
+  <description>
+    <p>Manage your Dropbox easely.</p>
+  </description>
+</component>

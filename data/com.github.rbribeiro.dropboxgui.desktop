@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Dropbox GUI
+GenericName=Dropbox GUI
+Comment=Friendly Dropbox GUI
+Categories=Utility;Productivity;
+Exec=com.github.rbribeiro.dropboxgui
+Terminal=false
+Icon=/home/rodrigo/Public/dropboxgui/data/imgs/dropboxicon.svg
+Type=Application
+Keywords=Dropbox;GUI;Cloud;
+X-GNOME-UsesNotifications=true

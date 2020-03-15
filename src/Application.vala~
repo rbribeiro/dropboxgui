@@ -3,7 +3,7 @@
 public class ValaCounter : Gtk.Application {
     public ValaCounter() {
         Object(
-            application_id : "com.github.rbribeiro.dropboxgui",
+            application_id : "com.valacounterapp",
             flags: ApplicationFlags.FLAGS_NONE
         );
     }
@@ -47,7 +47,7 @@ public class ValaCounter : Gtk.Application {
 
 
     protected override void activate() {
-        udock = Unity.LauncherEntry.get_for_desktop_id("com.github.rbribeiro.dropboxgui.desktop");
+        udock = Unity.LauncherEntry.get_for_desktop_id("com.valacounterapp.desktop");
         
         var dropbox = new Dropbox ();
         dropbox.timeout (1000);
