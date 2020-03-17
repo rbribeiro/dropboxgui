@@ -337,7 +337,7 @@ dropbox_core (Dropbox* self)
 #line 30 "/home/rodrigo/Public/dropboxgui/src/Services/Dropbox.vala"
 			if (_inner_error0_->domain == G_SPAWN_ERROR) {
 #line 340 "Dropbox.c"
-				goto __catch0_g_spawn_error;
+				goto __catch1_g_spawn_error;
 			}
 #line 30 "/home/rodrigo/Public/dropboxgui/src/Services/Dropbox.vala"
 			g_critical ("file %s: line %d: unexpected error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
@@ -709,8 +709,8 @@ dropbox_core (Dropbox* self)
 		return result;
 #line 711 "Dropbox.c"
 	}
-	goto __finally0;
-	__catch0_g_spawn_error:
+	goto __finally1;
+	__catch1_g_spawn_error:
 	{
 		GError* e = NULL;
 		gchar** _tmp76_;
@@ -800,7 +800,7 @@ dropbox_core (Dropbox* self)
 		return result;
 #line 802 "Dropbox.c"
 	}
-	__finally0:
+	__finally1:
 #line 24 "/home/rodrigo/Public/dropboxgui/src/Services/Dropbox.vala"
 	g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
 #line 24 "/home/rodrigo/Public/dropboxgui/src/Services/Dropbox.vala"

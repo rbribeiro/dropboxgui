@@ -3,7 +3,7 @@ public class SettingsWindow : Gtk.Window {
 
         var headerBar = new Gtk.HeaderBar ();
         headerBar.get_style_context ().add_class ("default-decoration");
-        headerBar.title = "Dropper Settings";
+        headerBar.title = "Dropbox GUI Settings";
         headerBar.show_close_button = true;
 
         var panel = new SettingsView ();

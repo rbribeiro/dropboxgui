@@ -8,8 +8,8 @@
 #include <granite.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gio/gio.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 
 
 #define TYPE_SETTINGS_PREFERENCES_PAGE (settings_preferences_page_get_type ())
@@ -30,6 +30,17 @@ static GParamSpec* settings_preferences_page_properties[SETTINGS_PREFERENCES_PAG
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 #define _g_free0(var) (var = (g_free (var), NULL))
 
+#define TYPE_UTILS (utils_get_type ())
+#define UTILS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_UTILS, Utils))
+#define UTILS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_UTILS, UtilsClass))
+#define IS_UTILS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_UTILS))
+#define IS_UTILS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_UTILS))
+#define UTILS_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_UTILS, UtilsClass))
+
+typedef struct _Utils Utils;
+typedef struct _UtilsClass UtilsClass;
+typedef struct _UtilsPrivate UtilsPrivate;
+
 struct _SettingsPreferencesPage {
 	GraniteSimpleSettingsPage parent_instance;
 	SettingsPreferencesPagePrivate * priv;
@@ -37,6 +48,16 @@ struct _SettingsPreferencesPage {
 
 struct _SettingsPreferencesPageClass {
 	GraniteSimpleSettingsPageClass parent_class;
+};
+
+struct _Utils {
+	GObject parent_instance;
+	UtilsPrivate * priv;
+	GSettings* glib_settings;
+};
+
+struct _UtilsClass {
+	GObjectClass parent_class;
 };
 
 
@@ -48,6 +69,9 @@ SettingsPreferencesPage* settings_preferences_page_construct (GType object_type)
 static GObject * settings_preferences_page_constructor (GType type,
                                                  guint n_construct_properties,
                                                  GObjectConstructParam * construct_properties);
+GType utils_get_type (void) G_GNUC_CONST;
+Utils* utils_new (void);
+Utils* utils_construct (GType object_type);
 
 
 static const gchar*
@@ -60,7 +84,7 @@ string_to_string (const gchar* self)
 	result = self;
 #line 1516 "/usr/share/vala-0.40/vapi/glib-2.0.vapi"
 	return result;
-#line 64 "SettingsPreferencesView.c"
+#line 88 "SettingsPreferencesView.c"
 }
 
 
@@ -106,7 +130,7 @@ settings_preferences_page_construct (GType object_type)
 	_g_free0 (user_name);
 #line 2 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	return self;
-#line 110 "SettingsPreferencesView.c"
+#line 134 "SettingsPreferencesView.c"
 }
 
 
@@ -115,7 +139,7 @@ settings_preferences_page_new (void)
 {
 #line 2 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	return settings_preferences_page_construct (TYPE_SETTINGS_PREFERENCES_PAGE);
-#line 119 "SettingsPreferencesView.c"
+#line 143 "SettingsPreferencesView.c"
 }
 
 
@@ -124,7 +148,7 @@ _g_object_ref0 (gpointer self)
 {
 #line 19 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	return self ? g_object_ref (self) : NULL;
-#line 128 "SettingsPreferencesView.c"
+#line 152 "SettingsPreferencesView.c"
 }
 
 
@@ -136,8 +160,8 @@ settings_preferences_page_constructor (GType type,
 	GObject * obj;
 	GObjectClass * parent_class;
 	SettingsPreferencesPage * self;
-	GSettings* glib_settings = NULL;
-	GSettings* _tmp0_;
+	Utils* utils = NULL;
+	Utils* _tmp0_;
 	GtkSettings* gtk_settings = NULL;
 	GtkSettings* _tmp1_;
 	GtkSettings* _tmp2_;
@@ -155,30 +179,36 @@ settings_preferences_page_constructor (GType type,
 	GraniteModeSwitch* _tmp8_;
 	GraniteModeSwitch* _tmp9_;
 	GtkSettings* _tmp10_;
-	GtkLabel* _tmp11_;
-	GtkLabel* _tmp12_;
+	Utils* _tmp11_;
+	GSettings* _tmp12_;
+	GraniteModeSwitch* _tmp13_;
+	Utils* _tmp14_;
+	GSettings* _tmp15_;
+	GtkSwitch* _tmp16_;
+	GtkLabel* _tmp17_;
+	GtkLabel* _tmp18_;
 	GtkGrid* grid = NULL;
-	GtkGrid* _tmp13_;
-	GtkGrid* _tmp14_;
-	GtkGrid* _tmp15_;
-	GtkGrid* _tmp16_;
-	GtkGrid* _tmp17_;
-	GtkGrid* _tmp18_;
 	GtkGrid* _tmp19_;
-	GtkLabel* _tmp20_;
+	GtkGrid* _tmp20_;
 	GtkGrid* _tmp21_;
-	GtkSwitch* _tmp22_;
+	GtkGrid* _tmp22_;
 	GtkGrid* _tmp23_;
-	GtkLabel* _tmp24_;
+	GtkGrid* _tmp24_;
 	GtkGrid* _tmp25_;
-	GtkSwitch* _tmp26_;
+	GtkLabel* _tmp26_;
 	GtkGrid* _tmp27_;
-	GtkLabel* _tmp28_;
+	GtkSwitch* _tmp28_;
 	GtkGrid* _tmp29_;
-	GraniteModeSwitch* _tmp30_;
+	GtkLabel* _tmp30_;
 	GtkGrid* _tmp31_;
-	GtkGrid* _tmp32_;
+	GtkSwitch* _tmp32_;
 	GtkGrid* _tmp33_;
+	GtkLabel* _tmp34_;
+	GtkGrid* _tmp35_;
+	GraniteModeSwitch* _tmp36_;
+	GtkGrid* _tmp37_;
+	GtkGrid* _tmp38_;
+	GtkGrid* _tmp39_;
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	parent_class = G_OBJECT_CLASS (settings_preferences_page_parent_class);
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
@@ -186,9 +216,9 @@ settings_preferences_page_constructor (GType type,
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, TYPE_SETTINGS_PREFERENCES_PAGE, SettingsPreferencesPage);
 #line 17 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp0_ = g_settings_new ("com.github.rbribeiro.dropboxgui");
+	_tmp0_ = utils_new ();
 #line 17 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	glib_settings = _tmp0_;
+	utils = _tmp0_;
 #line 19 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp1_ = gtk_settings_get_default ();
 #line 19 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
@@ -231,90 +261,106 @@ settings_preferences_page_constructor (GType type,
 	g_object_ref_sink (_tmp8_);
 #line 29 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	theme_swtich = _tmp8_;
-#line 34 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp9_ = theme_swtich;
-#line 34 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp10_ = gtk_settings;
-#line 34 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	g_object_bind_property_with_closures ((GObject*) _tmp9_, "active", (GObject*) _tmp10_, "gtk_application_prefer_dark_theme", G_BINDING_DEFAULT, (GClosure*) ((NULL == NULL) ? NULL : g_cclosure_new ((GCallback) NULL, NULL, (GClosureNotify) NULL)), (GClosure*) ((NULL == NULL) ? NULL : g_cclosure_new ((GCallback) NULL, NULL, (GClosureNotify) NULL)));
-#line 37 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp11_ = startup_label;
-#line 37 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp12_ = theme_label;
-#line 37 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_widget_set_halign ((GtkWidget*) _tmp12_, GTK_ALIGN_START);
-#line 37 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_widget_set_halign ((GtkWidget*) _tmp11_, GTK_ALIGN_START);
-#line 39 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp13_ = (GtkGrid*) gtk_grid_new ();
-#line 39 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	g_object_ref_sink (_tmp13_);
-#line 39 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	grid = _tmp13_;
+#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp11_ = utils;
+#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp12_ = _tmp11_->glib_settings;
+#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp13_ = theme_swtich;
+#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	g_settings_bind (_tmp12_, "darktheme-setting", (GObject*) _tmp13_, "active", G_SETTINGS_BIND_DEFAULT);
+#line 36 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp14_ = utils;
+#line 36 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp15_ = _tmp14_->glib_settings;
+#line 36 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp16_ = always_on_top_swtich;
+#line 36 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	g_settings_bind (_tmp15_, "always-on-top", (GObject*) _tmp16_, "active", G_SETTINGS_BIND_DEFAULT);
+#line 38 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp17_ = startup_label;
+#line 38 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp18_ = theme_label;
+#line 38 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_widget_set_halign ((GtkWidget*) _tmp18_, GTK_ALIGN_START);
+#line 38 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_widget_set_halign ((GtkWidget*) _tmp17_, GTK_ALIGN_START);
 #line 40 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp14_ = grid;
+	_tmp19_ = (GtkGrid*) gtk_grid_new ();
 #line 40 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_orientable_set_orientation ((GtkOrientable*) _tmp14_, GTK_ORIENTATION_VERTICAL);
+	g_object_ref_sink (_tmp19_);
+#line 40 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	grid = _tmp19_;
 #line 41 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp15_ = grid;
+	_tmp20_ = grid;
 #line 41 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_widget_set_halign ((GtkWidget*) _tmp15_, GTK_ALIGN_START);
+	gtk_orientable_set_orientation ((GtkOrientable*) _tmp20_, GTK_ORIENTATION_VERTICAL);
 #line 42 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp16_ = grid;
-#line 42 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp17_ = grid;
-#line 42 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp18_ = grid;
-#line 42 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	g_object_set ((GtkWidget*) _tmp18_, "margin", 12, NULL);
-#line 42 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_grid_set_row_spacing (_tmp17_, 12);
-#line 42 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_grid_set_column_spacing (_tmp16_, 12);
-#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp19_ = grid;
-#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp20_ = always_on_top_label;
-#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_grid_attach (_tmp19_, (GtkWidget*) _tmp20_, 0, 0, 1, 1);
-#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp21_ = grid;
-#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp22_ = always_on_top_swtich;
-#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_grid_attach (_tmp21_, (GtkWidget*) _tmp22_, 1, 0, 1, 1);
-#line 45 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+#line 42 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_widget_set_halign ((GtkWidget*) _tmp21_, GTK_ALIGN_CENTER);
+#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp22_ = grid;
+#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp23_ = grid;
-#line 45 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp24_ = startup_label;
-#line 45 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_grid_attach (_tmp23_, (GtkWidget*) _tmp24_, 0, 1, 2, 1);
-#line 46 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp24_ = grid;
+#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	g_object_set ((GtkWidget*) _tmp24_, "margin", 12, NULL);
+#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_grid_set_row_spacing (_tmp23_, 12);
+#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_grid_set_column_spacing (_tmp22_, 12);
+#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp25_ = grid;
-#line 46 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp26_ = startup_swtich;
-#line 46 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_grid_attach (_tmp25_, (GtkWidget*) _tmp26_, 1, 1, 1, 1);
-#line 47 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp26_ = always_on_top_label;
+#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_grid_attach (_tmp25_, (GtkWidget*) _tmp26_, 0, 0, 1, 1);
+#line 45 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp27_ = grid;
-#line 47 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp28_ = theme_label;
-#line 47 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_grid_attach (_tmp27_, (GtkWidget*) _tmp28_, 0, 2, 1, 1);
-#line 48 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+#line 45 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp28_ = always_on_top_swtich;
+#line 45 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_grid_attach (_tmp27_, (GtkWidget*) _tmp28_, 1, 0, 1, 1);
+#line 46 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp29_ = grid;
+#line 46 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp30_ = startup_label;
+#line 46 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_grid_attach (_tmp29_, (GtkWidget*) _tmp30_, 0, 1, 2, 1);
+#line 47 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp31_ = grid;
+#line 47 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp32_ = startup_swtich;
+#line 47 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_grid_attach (_tmp31_, (GtkWidget*) _tmp32_, 1, 1, 1, 1);
 #line 48 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp30_ = theme_swtich;
-#line 48 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_grid_attach (_tmp29_, (GtkWidget*) _tmp30_, 1, 2, 3, 1);
-#line 50 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp31_ = granite_simple_settings_page_get_content_area ((GraniteSimpleSettingsPage*) self);
-#line 50 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_tmp32_ = _tmp31_;
-#line 50 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_tmp33_ = grid;
-#line 50 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	gtk_container_add ((GtkContainer*) _tmp32_, (GtkWidget*) _tmp33_);
+#line 48 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp34_ = theme_label;
+#line 48 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_grid_attach (_tmp33_, (GtkWidget*) _tmp34_, 0, 2, 1, 1);
+#line 49 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp35_ = grid;
+#line 49 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp36_ = theme_swtich;
+#line 49 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_grid_attach (_tmp35_, (GtkWidget*) _tmp36_, 1, 2, 3, 1);
+#line 51 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp37_ = granite_simple_settings_page_get_content_area ((GraniteSimpleSettingsPage*) self);
+#line 51 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp38_ = _tmp37_;
+#line 51 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	_tmp39_ = grid;
+#line 51 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
+	gtk_container_add ((GtkContainer*) _tmp38_, (GtkWidget*) _tmp39_);
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_g_object_unref0 (grid);
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
@@ -332,10 +378,10 @@ settings_preferences_page_constructor (GType type,
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	_g_object_unref0 (gtk_settings);
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
-	_g_object_unref0 (glib_settings);
+	_g_object_unref0 (utils);
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	return obj;
-#line 339 "SettingsPreferencesView.c"
+#line 385 "SettingsPreferencesView.c"
 }
 
 
@@ -346,7 +392,7 @@ settings_preferences_page_class_init (SettingsPreferencesPageClass * klass)
 	settings_preferences_page_parent_class = g_type_class_peek_parent (klass);
 #line 1 "/home/rodrigo/Public/dropboxgui/src/Views/SettingsPreferencesView.vala"
 	G_OBJECT_CLASS (klass)->constructor = settings_preferences_page_constructor;
-#line 350 "SettingsPreferencesView.c"
+#line 396 "SettingsPreferencesView.c"
 }
 
 

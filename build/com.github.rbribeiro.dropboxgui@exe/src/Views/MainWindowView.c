@@ -6,6 +6,9 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 #define TYPE_MAIN_WINDOW (main_window_get_type ())
@@ -35,6 +38,18 @@ enum  {
 static GParamSpec* main_window_properties[MAIN_WINDOW_NUM_PROPERTIES];
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 
+#define TYPE_UTILS (utils_get_type ())
+#define UTILS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_UTILS, Utils))
+#define UTILS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_UTILS, UtilsClass))
+#define IS_UTILS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_UTILS))
+#define IS_UTILS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_UTILS))
+#define UTILS_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_UTILS, UtilsClass))
+
+typedef struct _Utils Utils;
+typedef struct _UtilsClass UtilsClass;
+typedef struct _Block1Data Block1Data;
+typedef struct _UtilsPrivate UtilsPrivate;
+
 #define TYPE_SHARE_VIEW (share_view_get_type ())
 #define SHARE_VIEW(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_SHARE_VIEW, ShareView))
 #define SHARE_VIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_SHARE_VIEW, ShareViewClass))
@@ -59,6 +74,22 @@ struct _MainWindowClass {
 	GtkApplicationWindowClass parent_class;
 };
 
+struct _Block1Data {
+	int _ref_count_;
+	MainWindow* self;
+	Utils* utils;
+};
+
+struct _Utils {
+	GObject parent_instance;
+	UtilsPrivate * priv;
+	GSettings* glib_settings;
+};
+
+struct _UtilsClass {
+	GObjectClass parent_class;
+};
+
 
 static gpointer main_window_parent_class = NULL;
 
@@ -70,6 +101,16 @@ MainWindow* main_window_construct (GType object_type,
 static GObject * main_window_constructor (GType type,
                                    guint n_construct_properties,
                                    GObjectConstructParam * construct_properties);
+GType utils_get_type (void) G_GNUC_CONST;
+static Block1Data* block1_data_ref (Block1Data* _data1_);
+static void block1_data_unref (void * _userdata_);
+Utils* utils_new (void);
+Utils* utils_construct (GType object_type);
+static void _main_window___lambda5_ (Block1Data* _data1_,
+                              const gchar* key);
+static void __main_window___lambda5__utils_glib_settings_changed (Utils* _sender,
+                                                           const gchar* key,
+                                                           gpointer self);
 GType share_view_get_type (void) G_GNUC_CONST;
 ShareView* share_view_new (void);
 ShareView* share_view_construct (GType object_type);
@@ -89,7 +130,7 @@ main_window_construct (GType object_type,
 	self = (MainWindow*) g_object_new (object_type, "application", app, NULL);
 #line 8 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	return self;
-#line 93 "MainWindowView.c"
+#line 134 "MainWindowView.c"
 }
 
 
@@ -98,7 +139,81 @@ main_window_new (GtkApplication* app)
 {
 #line 8 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	return main_window_construct (TYPE_MAIN_WINDOW, app);
-#line 102 "MainWindowView.c"
+#line 143 "MainWindowView.c"
+}
+
+
+static Block1Data*
+block1_data_ref (Block1Data* _data1_)
+{
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_atomic_int_inc (&_data1_->_ref_count_);
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	return _data1_;
+#line 154 "MainWindowView.c"
+}
+
+
+static void
+block1_data_unref (void * _userdata_)
+{
+	Block1Data* _data1_;
+	_data1_ = (Block1Data*) _userdata_;
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	if (g_atomic_int_dec_and_test (&_data1_->_ref_count_)) {
+#line 165 "MainWindowView.c"
+		MainWindow* self;
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		self = _data1_->self;
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		_g_object_unref0 (_data1_->utils);
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		_g_object_unref0 (self);
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		g_slice_free (Block1Data, _data1_);
+#line 175 "MainWindowView.c"
+	}
+}
+
+
+static gpointer
+_g_object_ref0 (gpointer self)
+{
+#line 16 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	return self ? g_object_ref (self) : NULL;
+#line 185 "MainWindowView.c"
+}
+
+
+static void
+_main_window___lambda5_ (Block1Data* _data1_,
+                         const gchar* key)
+{
+	MainWindow* self;
+	Utils* _tmp0_;
+	GSettings* _tmp1_;
+#line 19 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	self = _data1_->self;
+#line 19 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_return_if_fail (key != NULL);
+#line 20 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp0_ = _data1_->utils;
+#line 20 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp1_ = _tmp0_->glib_settings;
+#line 20 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_window_set_keep_above ((GtkWindow*) self, g_settings_get_boolean (_tmp1_, key));
+#line 206 "MainWindowView.c"
+}
+
+
+static void
+__main_window___lambda5__utils_glib_settings_changed (Utils* _sender,
+                                                      const gchar* key,
+                                                      gpointer self)
+{
+#line 19 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_main_window___lambda5_ (self, key);
+#line 217 "MainWindowView.c"
 }
 
 
@@ -110,193 +225,248 @@ main_window_constructor (GType type,
 	GObject * obj;
 	GObjectClass * parent_class;
 	MainWindow * self;
+	Block1Data* _data1_;
+	Utils* _tmp0_;
+	GtkSettings* gtk_settings = NULL;
+	GtkSettings* _tmp1_;
+	GtkSettings* _tmp2_;
+	GtkSettings* _tmp3_;
+	Utils* _tmp4_;
+	GSettings* _tmp5_;
+	gboolean always_on_top = FALSE;
+	Utils* _tmp6_;
+	GSettings* _tmp7_;
+	Utils* _tmp8_;
 	ShareView* shareView = NULL;
-	ShareView* _tmp0_;
-	GtkButton* _tmp1_;
-	GtkButton* _tmp2_;
-	GtkHeaderBar* headerBar = NULL;
-	GtkHeaderBar* _tmp3_;
-	GtkHeaderBar* _tmp4_;
-	GtkStyleContext* _tmp5_;
-	GtkHeaderBar* _tmp6_;
-	GtkStyleContext* _tmp7_;
-	GtkHeaderBar* _tmp8_;
-	GtkHeaderBar* _tmp9_;
-	GtkHeaderBar* _tmp10_;
+	ShareView* _tmp9_;
+	GtkButton* _tmp10_;
 	GtkButton* _tmp11_;
+	GtkHeaderBar* headerBar = NULL;
 	GtkHeaderBar* _tmp12_;
-	GtkButton* _tmp13_;
-	GtkStack* _tmp14_;
-	GtkStack* _tmp15_;
-	GtkStack* _tmp16_;
-	ShareView* _tmp17_;
-	StatusBar* _tmp18_;
+	GtkHeaderBar* _tmp13_;
+	GtkStyleContext* _tmp14_;
+	GtkHeaderBar* _tmp15_;
+	GtkStyleContext* _tmp16_;
+	GtkHeaderBar* _tmp17_;
+	GtkHeaderBar* _tmp18_;
+	GtkHeaderBar* _tmp19_;
+	GtkButton* _tmp20_;
+	GtkHeaderBar* _tmp21_;
+	GtkButton* _tmp22_;
+	GtkStack* _tmp23_;
+	GtkStack* _tmp24_;
+	GtkStack* _tmp25_;
+	ShareView* _tmp26_;
+	StatusBar* _tmp27_;
 	GtkBox* box = NULL;
-	GtkBox* _tmp19_;
-	GtkBox* _tmp20_;
-	GtkBox* _tmp21_;
-	GtkStack* _tmp22_;
-	GtkBox* _tmp23_;
-	StatusBar* _tmp24_;
-	GtkBox* _tmp25_;
-	GtkStyleContext* _tmp26_;
-	GtkHeaderBar* _tmp27_;
-	GtkStyleContext* _tmp28_;
-	GError* _inner_error0_ = NULL;
+	GtkBox* _tmp28_;
+	GtkBox* _tmp29_;
+	GtkBox* _tmp30_;
+	GtkStack* _tmp31_;
+	GtkBox* _tmp32_;
+	StatusBar* _tmp33_;
+	GtkBox* _tmp34_;
+	GtkStyleContext* _tmp35_;
+	GtkHeaderBar* _tmp36_;
+	GtkStyleContext* _tmp37_;
+	Utils* _tmp38_;
+	GSettings* _tmp39_;
+	gboolean _tmp44_;
 #line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	parent_class = G_OBJECT_CLASS (main_window_parent_class);
 #line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
 #line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, TYPE_MAIN_WINDOW, MainWindow);
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_data1_ = g_slice_new0 (Block1Data);
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_data1_->_ref_count_ = 1;
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_data1_->self = g_object_ref (self);
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp0_ = share_view_new ();
+	_tmp0_ = utils_new ();
 #line 15 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_ref_sink (_tmp0_);
-#line 15 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	shareView = _tmp0_;
+	_data1_->utils = _tmp0_;
 #line 16 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp1_ = (GtkButton*) gtk_button_new_from_icon_name ("folder-symbolic", (GtkIconSize) GTK_ICON_SIZE_BUTTON);
+	_tmp1_ = gtk_settings_get_default ();
 #line 16 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_ref_sink (_tmp1_);
+	_tmp2_ = _g_object_ref0 (_tmp1_);
 #line 16 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_settings = _tmp2_;
+#line 17 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp3_ = gtk_settings;
+#line 17 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp4_ = _data1_->utils;
+#line 17 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp5_ = _tmp4_->glib_settings;
+#line 17 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_object_set (_tmp3_, "gtk-application-prefer-dark-theme", g_settings_get_boolean (_tmp5_, "darktheme-setting"), NULL);
+#line 18 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp6_ = _data1_->utils;
+#line 18 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp7_ = _tmp6_->glib_settings;
+#line 18 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	always_on_top = g_settings_get_boolean (_tmp7_, "always-on-top");
+#line 19 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp8_ = _data1_->utils;
+#line 19 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_signal_connect_data (_tmp8_, "glib-settings-changed", (GCallback) __main_window___lambda5__utils_glib_settings_changed, block1_data_ref (_data1_), (GClosureNotify) block1_data_unref, 0);
+#line 23 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp9_ = share_view_new ();
+#line 23 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_object_ref_sink (_tmp9_);
+#line 23 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	shareView = _tmp9_;
+#line 24 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp10_ = (GtkButton*) gtk_button_new_from_icon_name ("folder-symbolic", (GtkIconSize) GTK_ICON_SIZE_BUTTON);
+#line 24 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_object_ref_sink (_tmp10_);
+#line 24 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	_g_object_unref0 (self->dropbox_folder_button);
-#line 16 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	self->dropbox_folder_button = _tmp1_;
-#line 17 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp2_ = (GtkButton*) gtk_button_new_from_icon_name ("open-menu-symbolic", (GtkIconSize) GTK_ICON_SIZE_BUTTON);
-#line 17 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_ref_sink (_tmp2_);
-#line 17 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+#line 24 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	self->dropbox_folder_button = _tmp10_;
+#line 25 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp11_ = (GtkButton*) gtk_button_new_from_icon_name ("open-menu-symbolic", (GtkIconSize) GTK_ICON_SIZE_BUTTON);
+#line 25 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_object_ref_sink (_tmp11_);
+#line 25 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	_g_object_unref0 (self->settings_button);
-#line 17 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	self->settings_button = _tmp2_;
-#line 19 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp3_ = (GtkHeaderBar*) gtk_header_bar_new ();
-#line 19 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_ref_sink (_tmp3_);
-#line 19 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	headerBar = _tmp3_;
-#line 20 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp4_ = headerBar;
-#line 20 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp5_ = gtk_widget_get_style_context ((GtkWidget*) _tmp4_);
-#line 20 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_style_context_add_class (_tmp5_, "default-decoration");
-#line 21 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp6_ = headerBar;
-#line 21 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp7_ = gtk_widget_get_style_context ((GtkWidget*) _tmp6_);
-#line 21 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_style_context_add_class (_tmp7_, GTK_STYLE_CLASS_FLAT);
-#line 22 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp8_ = headerBar;
-#line 22 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_header_bar_set_title (_tmp8_, "Dropper");
-#line 23 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp9_ = headerBar;
-#line 23 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_header_bar_set_show_close_button (_tmp9_, TRUE);
-#line 24 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp10_ = headerBar;
-#line 24 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp11_ = self->settings_button;
-#line 24 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_header_bar_pack_end (_tmp10_, (GtkWidget*) _tmp11_);
 #line 25 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp12_ = headerBar;
-#line 25 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp13_ = self->dropbox_folder_button;
-#line 25 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_header_bar_pack_end (_tmp12_, (GtkWidget*) _tmp13_);
+	self->settings_button = _tmp11_;
 #line 27 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp14_ = (GtkStack*) gtk_stack_new ();
+	_tmp12_ = (GtkHeaderBar*) gtk_header_bar_new ();
 #line 27 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_ref_sink (_tmp14_);
+	g_object_ref_sink (_tmp12_);
 #line 27 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	headerBar = _tmp12_;
+#line 28 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp13_ = headerBar;
+#line 28 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp14_ = gtk_widget_get_style_context ((GtkWidget*) _tmp13_);
+#line 28 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_style_context_add_class (_tmp14_, "default-decoration");
+#line 29 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp15_ = headerBar;
+#line 29 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp16_ = gtk_widget_get_style_context ((GtkWidget*) _tmp15_);
+#line 29 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_style_context_add_class (_tmp16_, GTK_STYLE_CLASS_FLAT);
+#line 30 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp17_ = headerBar;
+#line 30 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_header_bar_set_title (_tmp17_, "Dropbox GUI");
+#line 31 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp18_ = headerBar;
+#line 31 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_header_bar_set_show_close_button (_tmp18_, TRUE);
+#line 32 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp19_ = headerBar;
+#line 32 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp20_ = self->settings_button;
+#line 32 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_header_bar_pack_end (_tmp19_, (GtkWidget*) _tmp20_);
+#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp21_ = headerBar;
+#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp22_ = self->dropbox_folder_button;
+#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_header_bar_pack_end (_tmp21_, (GtkWidget*) _tmp22_);
+#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp23_ = (GtkStack*) gtk_stack_new ();
+#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_object_ref_sink (_tmp23_);
+#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	_g_object_unref0 (self->stack);
-#line 27 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	self->stack = _tmp14_;
-#line 28 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp15_ = self->stack;
-#line 28 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_stack_set_transition_type (_tmp15_, GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
-#line 29 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp16_ = self->stack;
-#line 29 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp17_ = shareView;
-#line 29 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_stack_add_titled (_tmp16_, (GtkWidget*) _tmp17_, "share", "Share Public");
-#line 31 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp18_ = status_bar_new ();
-#line 31 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_ref_sink (_tmp18_);
-#line 31 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_g_object_unref0 (self->status_bar);
-#line 31 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	self->status_bar = _tmp18_;
-#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp19_ = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_ref_sink (_tmp19_);
-#line 33 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	box = _tmp19_;
-#line 34 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp20_ = box;
-#line 34 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_set ((GtkWidget*) _tmp20_, "margin", 12, NULL);
 #line 35 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp21_ = box;
-#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp22_ = self->stack;
-#line 35 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_box_pack_start (_tmp21_, (GtkWidget*) _tmp22_, TRUE, TRUE, (guint) 1);
+	self->stack = _tmp23_;
 #line 36 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp23_ = box;
+	_tmp24_ = self->stack;
 #line 36 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp24_ = self->status_bar;
-#line 36 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_box_pack_end (_tmp23_, (GtkWidget*) _tmp24_, FALSE, TRUE, (guint) 0);
+	gtk_stack_set_transition_type (_tmp24_, GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
 #line 37 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp25_ = box;
+	_tmp25_ = self->stack;
 #line 37 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_container_add ((GtkContainer*) self, (GtkWidget*) _tmp25_);
-#line 38 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp26_ = gtk_widget_get_style_context ((GtkWidget*) self);
-#line 38 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_style_context_add_class (_tmp26_, "default-decoration");
+	_tmp26_ = shareView;
+#line 37 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_stack_add_titled (_tmp25_, (GtkWidget*) _tmp26_, "share", "Share Public");
 #line 39 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_window_set_resizable ((GtkWindow*) self, FALSE);
-#line 40 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp27_ = headerBar;
-#line 40 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_window_set_titlebar ((GtkWindow*) self, (GtkWidget*) _tmp27_);
+	_tmp27_ = status_bar_new ();
+#line 39 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_object_ref_sink (_tmp27_);
+#line 39 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_g_object_unref0 (self->status_bar);
+#line 39 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	self->status_bar = _tmp27_;
 #line 41 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	_tmp28_ = gtk_widget_get_style_context ((GtkWidget*) self);
+	_tmp28_ = (GtkBox*) gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 #line 41 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_style_context_add_class (_tmp28_, "rounded");
+	g_object_ref_sink (_tmp28_);
+#line 41 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	box = _tmp28_;
 #line 42 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_window_set_default_size ((GtkWindow*) self, 250, 320);
+	_tmp29_ = box;
+#line 42 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	g_object_set ((GtkWidget*) _tmp29_, "margin", 12, NULL);
 #line 43 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	g_object_set ((GtkWindow*) self, "window-position", GTK_WIN_POS_MOUSE, NULL);
+	_tmp30_ = box;
+#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp31_ = self->stack;
+#line 43 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_box_pack_start (_tmp30_, (GtkWidget*) _tmp31_, TRUE, TRUE, (guint) 1);
 #line 44 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_window_set_icon_from_file ((GtkWindow*) self, "/home/rodrigo/Public/ValaCounter/data/imgs/dropboxicon.svg", &_inner_error0_);
+	_tmp32_ = box;
 #line 44 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	if (G_UNLIKELY (_inner_error0_ != NULL)) {
+	_tmp33_ = self->status_bar;
 #line 44 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-		_g_object_unref0 (box);
-#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-		_g_object_unref0 (headerBar);
-#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-		_g_object_unref0 (shareView);
-#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
-#line 44 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-		g_clear_error (&_inner_error0_);
-#line 297 "MainWindowView.c"
-	}
+	gtk_box_pack_end (_tmp32_, (GtkWidget*) _tmp33_, FALSE, TRUE, (guint) 0);
 #line 45 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
-	gtk_window_set_keep_above ((GtkWindow*) self, TRUE);
+	_tmp34_ = box;
+#line 45 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_container_add ((GtkContainer*) self, (GtkWidget*) _tmp34_);
+#line 46 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp35_ = gtk_widget_get_style_context ((GtkWidget*) self);
+#line 46 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_style_context_add_class (_tmp35_, "default-decoration");
+#line 47 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_window_set_resizable ((GtkWindow*) self, FALSE);
+#line 48 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp36_ = headerBar;
+#line 48 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_window_set_titlebar ((GtkWindow*) self, (GtkWidget*) _tmp36_);
+#line 49 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp37_ = gtk_widget_get_style_context ((GtkWidget*) self);
+#line 49 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_style_context_add_class (_tmp37_, "rounded");
+#line 50 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_window_set_default_size ((GtkWindow*) self, 250, 320);
+#line 51 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp38_ = _data1_->utils;
+#line 51 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp39_ = _tmp38_->glib_settings;
+#line 51 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	if (g_settings_get_int (_tmp39_, "window-pos-y") != 0) {
+#line 450 "MainWindowView.c"
+		Utils* _tmp40_;
+		GSettings* _tmp41_;
+		Utils* _tmp42_;
+		GSettings* _tmp43_;
+#line 52 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		_tmp40_ = _data1_->utils;
+#line 52 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		_tmp41_ = _tmp40_->glib_settings;
+#line 52 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		_tmp42_ = _data1_->utils;
+#line 52 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		_tmp43_ = _tmp42_->glib_settings;
+#line 52 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+		gtk_window_move ((GtkWindow*) self, g_settings_get_int (_tmp41_, "window-pos-x"), g_settings_get_int (_tmp43_, "window-pos-y"));
+#line 465 "MainWindowView.c"
+	}
+#line 58 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_tmp44_ = always_on_top;
+#line 58 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	gtk_window_set_keep_above ((GtkWindow*) self, _tmp44_);
 #line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	_g_object_unref0 (box);
 #line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
@@ -304,8 +474,14 @@ main_window_constructor (GType type,
 #line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	_g_object_unref0 (shareView);
 #line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_g_object_unref0 (gtk_settings);
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	block1_data_unref (_data1_);
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
+	_data1_ = NULL;
+#line 14 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	return obj;
-#line 309 "MainWindowView.c"
+#line 485 "MainWindowView.c"
 }
 
 
@@ -318,7 +494,7 @@ main_window_class_init (MainWindowClass * klass)
 	G_OBJECT_CLASS (klass)->constructor = main_window_constructor;
 #line 1 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	G_OBJECT_CLASS (klass)->finalize = main_window_finalize;
-#line 322 "MainWindowView.c"
+#line 498 "MainWindowView.c"
 }
 
 
@@ -346,7 +522,7 @@ main_window_finalize (GObject * obj)
 	_g_object_unref0 (self->settings_button);
 #line 1 "/home/rodrigo/Public/dropboxgui/src/Views/MainWindowView.vala"
 	G_OBJECT_CLASS (main_window_parent_class)->finalize (obj);
-#line 350 "MainWindowView.c"
+#line 526 "MainWindowView.c"
 }
 
 

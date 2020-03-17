@@ -180,7 +180,7 @@ share_view_construct (GType object_type)
 #line 24 "/home/rodrigo/Public/dropboxgui/src/Views/ShareView.vala"
 	self->priv->file_name = _tmp4_;
 #line 26 "/home/rodrigo/Public/dropboxgui/src/Views/ShareView.vala"
-	_tmp5_ = (GtkLabel*) gtk_label_new ("Generate sharelink");
+	_tmp5_ = (GtkLabel*) gtk_label_new ("Generate share link");
 #line 26 "/home/rodrigo/Public/dropboxgui/src/Views/ShareView.vala"
 	g_object_ref_sink (_tmp5_);
 #line 26 "/home/rodrigo/Public/dropboxgui/src/Views/ShareView.vala"

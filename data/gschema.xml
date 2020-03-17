@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-<schema path="/com/github/dropper/dropper/" id="com.valacounterapp">
-<key name="darktheme-setting" type="b">
-<default>false</default>
-<summary>Dark theme preference</summary>
-<description>Whether the dark theme switch is toggled</description>
-</key>
+<schema path="/com/github/rbribeiro/dropboxgui/" id="com.github.rbribeiro.dropboxgui">
+    <key name="darktheme-setting" type="b">
+        <default>false</default>
+        <summary>Dark theme preference</summary>
+        <description>Whether the dark theme switch is toggled</description>
+    </key>
+    <key name="always-on-top" type="b">
+        <default>false</default>
+        <summary>Fix the window above all</summary>
+        <description>Whether the "always on top" switch is toggled</description>
+    </key>
+    <key name="window-pos-x" type="i">
+        <default>0</default>
+        <summary>Save window state</summary>
+        <description>Window x position</description>
+    </key>
+    <key name="window-pos-y" type="i">
+        <default>0</default>
+        <summary>Save window state</summary>
+        <description>Window y position</description>
+    </key>
 </schema>
 </schemalist>

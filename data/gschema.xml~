@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+<schema path="/com/github/rbribeiro/dropboxgui/" id="com.github.rbribeiro.dropboxgui">
+<key name="darktheme-setting" type="b">
+<default>false</default>
+<summary>Dark theme preference</summary>
+<description>Whether the dark theme switch is toggled</description>
+</key>
+<key name="always-on-top" type="b">
+<default>false</default>
+<summary>Fix the window above all</summary>
+<description>Whether the "always on top" switch is toggled</description>
+</key>
+</schema>
+</schemalist>

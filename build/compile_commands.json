@@ -1,13 +1,18 @@
 [
   {
     "directory": "/home/rodrigo/Public/dropboxgui/build",
-    "command": "valac -C --debug --debug --pkg granite --pkg unity --pkg gtk+-3.0 --color=always --directory com.github.rbribeiro.dropboxgui@exe --basedir ../ ../src/Application.vala ../src/Views/ShareView.vala ../src/Views/SettingsView.vala ../src/Views/SettingsPreferencesView.vala ../src/Views/MainWindowView.vala ../src/Widgets/StatusBar.vala ../src/Services/Dropbox.vala ../src/Windows/SettingsWindow.vala",
+    "command": "valac -C --debug --debug --pkg granite --pkg unity --pkg gtk+-3.0 --color=always --directory com.github.rbribeiro.dropboxgui@exe --basedir ../ ../src/Application.vala ../src/Utils.vala ../src/Views/ShareView.vala ../src/Views/SettingsView.vala ../src/Views/SettingsPreferencesView.vala ../src/Views/MainWindowView.vala ../src/Widgets/StatusBar.vala ../src/Services/Dropbox.vala ../src/Windows/SettingsWindow.vala",
     "file": "../src/Application.vala"
   },
   {
     "directory": "/home/rodrigo/Public/dropboxgui/build",
     "command": "cc -Icom.github.rbribeiro.dropboxgui@exe -I. -I.. -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0/ -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/unity/unity -I/usr/include/dee-1.0 -I/usr/include/libdbusmenu-glib-0.4 -I/usr/include/granite -I/usr/include/gee-0.8 -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -w -g -pthread  -MD -MQ 'com.github.rbribeiro.dropboxgui@exe/meson-generated_src_Application.c.o' -MF 'com.github.rbribeiro.dropboxgui@exe/meson-generated_src_Application.c.o.d' -o 'com.github.rbribeiro.dropboxgui@exe/meson-generated_src_Application.c.o' -c 'com.github.rbribeiro.dropboxgui@exe/src/Application.c'",
     "file": "com.github.rbribeiro.dropboxgui@exe/src/Application.c"
+  },
+  {
+    "directory": "/home/rodrigo/Public/dropboxgui/build",
+    "command": "cc -Icom.github.rbribeiro.dropboxgui@exe -I. -I.. -I/usr/include/at-spi2-atk/2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-linux-gnu/dbus-1.0/include -I/usr/include/gtk-3.0 -I/usr/include/gio-unix-2.0/ -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/atk-1.0 -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/unity/unity -I/usr/include/dee-1.0 -I/usr/include/libdbusmenu-glib-0.4 -I/usr/include/granite -I/usr/include/gee-0.8 -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -w -g -pthread  -MD -MQ 'com.github.rbribeiro.dropboxgui@exe/meson-generated_src_Utils.c.o' -MF 'com.github.rbribeiro.dropboxgui@exe/meson-generated_src_Utils.c.o.d' -o 'com.github.rbribeiro.dropboxgui@exe/meson-generated_src_Utils.c.o' -c 'com.github.rbribeiro.dropboxgui@exe/src/Utils.c'",
+    "file": "com.github.rbribeiro.dropboxgui@exe/src/Utils.c"
   },
   {
     "directory": "/home/rodrigo/Public/dropboxgui/build",

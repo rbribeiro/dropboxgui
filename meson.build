@@ -5,6 +5,7 @@
     executable(
         meson.project_name(),
         'src/Application.vala',
+        'src/Utils.vala',
         'src/Views/ShareView.vala',
         'src/Views/SettingsView.vala',
         'src/Views/SettingsPreferencesView.vala',

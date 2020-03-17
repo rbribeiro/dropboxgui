@@ -13,9 +13,9 @@ public class SettingsPreferencesPage : Granite.SimpleSettingsPage {
         }
 
         construct {
-        
-            var glib_settings =  new GLib.Settings ("com.github.rbribeiro.dropboxgui");
-            
+
+            var utils =  new Utils();
+
             var gtk_settings = Gtk.Settings.get_default ();
 
             var always_on_top_label = new Gtk.Label ("Always on top ");
@@ -23,22 +23,23 @@ public class SettingsPreferencesPage : Granite.SimpleSettingsPage {
 
             var startup_label = new Gtk.Label ("Run on startup ");
             var startup_swtich = new Gtk.Switch ();
-            
+
 
             var theme_label = new Gtk.Label ("Theme mode");
             var theme_swtich = new Granite.ModeSwitch.from_icon_name (
             "display-brightness-symbolic",
             "weather-clear-night-symbolic"
             );
-            
             theme_swtich.bind_property ("active", gtk_settings, "gtk_application_prefer_dark_theme");
-           // theme_swtich.bind_property ("active", glib_settings)
+            
+            utils.glib_settings.bind ("darktheme-setting", theme_swtich, "active", GLib.SettingsBindFlags.DEFAULT);
+            utils.glib_settings.bind("always-on-top", always_on_top_swtich, "active", GLib.SettingsBindFlags.DEFAULT);
 
             startup_label.halign = theme_label.halign =Gtk.Align.START;
-            
+
             var grid = new Gtk.Grid ();
             grid.orientation = Gtk.Orientation.VERTICAL;
-            grid.halign = Gtk.Align.START;
+            grid.halign = Gtk.Align.CENTER;
             grid.column_spacing = grid.row_spacing = grid.margin = 12;
             grid.attach (always_on_top_label, 0,0,1,1);
             grid.attach (always_on_top_swtich, 1,0,1,1);

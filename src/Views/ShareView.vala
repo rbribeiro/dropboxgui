@@ -23,7 +23,7 @@ public class ShareView : Gtk.Grid {
 
             file_name = new Gtk.Label ("");
 
-            share_link = new Gtk.Label ("Generate sharelink");
+            share_link = new Gtk.Label ("Generate share link");
             share_link.use_markup = file_name.use_markup = true;
             share_link.ellipsize = file_name.ellipsize = Pango.EllipsizeMode.END;
             share_link.max_width_chars = file_name.max_width_chars = 32;

@@ -1,4 +1,4 @@
-Build started at 2020-03-15T19:11:47.346802
+Build started at 2020-03-16T23:31:08.360401
 Main binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
@@ -18,8 +18,8 @@ Dependency granite found: YES (cached)
 Build targets in project: 1
 Found ninja-1.8.2 at /usr/bin/ninja
 Running compile:
-Working directory:  /tmp/tmps49585hx
-Command line:  cc /tmp/tmps49585hx/testfile.c -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmps49585hx/output.obj -O0 --print-search-dirs 
+Working directory:  /tmp/tmpdnrgfnhq
+Command line:  cc /tmp/tmpdnrgfnhq/testfile.c -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmpdnrgfnhq/output.obj -O0 --print-search-dirs 
 
 Code:
  

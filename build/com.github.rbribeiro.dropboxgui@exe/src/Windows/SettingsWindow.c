@@ -77,7 +77,7 @@ settings_window_construct (GType object_type)
 #line 5 "/home/rodrigo/Public/dropboxgui/src/Windows/SettingsWindow.vala"
 	gtk_style_context_add_class (_tmp1_, "default-decoration");
 #line 6 "/home/rodrigo/Public/dropboxgui/src/Windows/SettingsWindow.vala"
-	gtk_header_bar_set_title (headerBar, "Dropper Settings");
+	gtk_header_bar_set_title (headerBar, "Dropbox GUI Settings");
 #line 7 "/home/rodrigo/Public/dropboxgui/src/Windows/SettingsWindow.vala"
 	gtk_header_bar_set_show_close_button (headerBar, TRUE);
 #line 9 "/home/rodrigo/Public/dropboxgui/src/Windows/SettingsWindow.vala"
