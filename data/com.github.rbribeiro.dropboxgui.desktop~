@@ -8,11 +8,4 @@ Terminal=false
 Icon=/home/rodrigo/Public/dropboxgui/data/imgs/dropboxicon.svg
 Type=Application
 Keywords=Dropbox;GUI;Cloud;
-Actions=OpenDropboxFolder;
 X-GNOME-UsesNotifications=true
-
-[Desktop Action OpenDropboxFolder]
-Name=Dropbox Folder
-Terminal=true
-Exec=com.github.rbribeiro.dropboxgui -d folder
-Icon=folder

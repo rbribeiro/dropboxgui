@@ -30,6 +30,16 @@ public class ValaCounter : Gtk.Application {
         }
 
     }
+    
+    private bool on_close () {
+        var utils = new Utils ();
+        int x, y;
+        main_window.get_position (out x, out y);
+        utils.glib_settings.set_int ("window-pos-x", x);
+        utils.glib_settings.set_int ("window-pos-y", y);
+        
+        return false;
+    }
 
     private void on_dropbox_status_change (string[] args) {
 
@@ -50,7 +60,7 @@ public class ValaCounter : Gtk.Application {
         main_window.status_bar.new_status(args[0], args[1]);
     }
 
-
+ 
     protected override void activate() {
         udock = Unity.LauncherEntry.get_for_desktop_id("com.github.rbribeiro.dropboxgui.desktop");
 
@@ -64,7 +74,8 @@ public class ValaCounter : Gtk.Application {
         main_window.show_all();
 
         add_window (main_window);
-
+        
+        main_window.delete_event.connect ( on_close);
     }
 
     public static int main(string[] args) {

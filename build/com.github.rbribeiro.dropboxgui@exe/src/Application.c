@@ -84,6 +84,7 @@ typedef struct _StatusBarClass StatusBarClass;
 
 typedef struct _Dropbox Dropbox;
 typedef struct _DropboxClass DropboxClass;
+#define _g_free0(var) (var = (g_free (var), NULL))
 
 struct _ValaCounter {
 	GtkApplication parent_instance;
@@ -136,7 +137,7 @@ static void vala_counter_open_settings (ValaCounter* self);
 GType settings_window_get_type (void) G_GNUC_CONST;
 SettingsWindow* settings_window_new (void);
 SettingsWindow* settings_window_construct (GType object_type);
-static void vala_counter_open_dropbox_folder (ValaCounter* self);
+void vala_counter_open_dropbox_folder (ValaCounter* self);
 static gboolean vala_counter_on_close (ValaCounter* self);
 GType utils_get_type (void) G_GNUC_CONST;
 Utils* utils_new (void);
@@ -181,7 +182,7 @@ vala_counter_construct (GType object_type)
 	self = (ValaCounter*) g_object_new (object_type, "application-id", "com.github.rbribeiro.dropboxgui", "flags", G_APPLICATION_FLAGS_NONE, NULL);
 #line 4 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	return self;
-#line 185 "Application.c"
+#line 186 "Application.c"
 }
 
 
@@ -190,7 +191,7 @@ vala_counter_new (void)
 {
 #line 4 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	return vala_counter_construct (TYPE_VALA_COUNTER);
-#line 194 "Application.c"
+#line 195 "Application.c"
 }
 
 
@@ -211,7 +212,7 @@ vala_counter_notify (ValaCounter* self)
 	g_application_send_notification ((GApplication*) self, "com.valacounterapp", noti);
 #line 13 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	_g_object_unref0 (noti);
-#line 215 "Application.c"
+#line 216 "Application.c"
 }
 
 
@@ -232,23 +233,23 @@ vala_counter_open_settings (ValaCounter* self)
 	gtk_widget_show_all ((GtkWidget*) settings_window);
 #line 20 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	_g_object_unref0 (settings_window);
-#line 236 "Application.c"
+#line 237 "Application.c"
 }
 
 
-static void
+void
 vala_counter_open_dropbox_folder (ValaCounter* self)
 {
 	GError* _inner_error0_ = NULL;
 #line 25 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	g_return_if_fail (self != NULL);
-#line 246 "Application.c"
+#line 247 "Application.c"
 	{
 #line 27 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		g_app_info_launch_default_for_uri ("file:///home/rodrigo/Dropbox", NULL, &_inner_error0_);
 #line 27 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		if (G_UNLIKELY (_inner_error0_ != NULL)) {
-#line 252 "Application.c"
+#line 253 "Application.c"
 			goto __catch0_g_error;
 		}
 	}
@@ -270,7 +271,7 @@ vala_counter_open_dropbox_folder (ValaCounter* self)
 		g_print ("%s", _tmp1_);
 #line 26 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_g_error_free0 (e);
-#line 274 "Application.c"
+#line 275 "Application.c"
 	}
 	__finally0:
 #line 26 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
@@ -281,7 +282,7 @@ vala_counter_open_dropbox_folder (ValaCounter* self)
 		g_clear_error (&_inner_error0_);
 #line 26 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		return;
-#line 285 "Application.c"
+#line 286 "Application.c"
 	}
 }
 
@@ -327,7 +328,7 @@ vala_counter_on_close (ValaCounter* self)
 	_g_object_unref0 (utils);
 #line 41 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	return result;
-#line 331 "Application.c"
+#line 332 "Application.c"
 }
 
 
@@ -341,7 +342,7 @@ double_parse (const gchar* str)
 	result = g_ascii_strtod (str, NULL);
 #line 945 "/usr/share/vala-0.40/vapi/glib-2.0.vapi"
 	return result;
-#line 345 "Application.c"
+#line 346 "Application.c"
 }
 
 
@@ -366,44 +367,44 @@ vala_counter_on_dropbox_status_change (ValaCounter* self,
 	if (g_strcmp0 (_tmp3_, "Uploading") == 0) {
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp2_ = TRUE;
-#line 370 "Application.c"
+#line 371 "Application.c"
 	} else {
 		const gchar* _tmp4_;
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp4_ = args[0];
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp2_ = g_strcmp0 (_tmp4_, "Indexing") == 0;
-#line 377 "Application.c"
+#line 378 "Application.c"
 	}
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	if (_tmp2_) {
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp1_ = TRUE;
-#line 383 "Application.c"
+#line 384 "Application.c"
 	} else {
 		const gchar* _tmp5_;
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp5_ = args[0];
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp1_ = g_strcmp0 (_tmp5_, "Syncing") == 0;
-#line 390 "Application.c"
+#line 391 "Application.c"
 	}
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	if (_tmp1_) {
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp0_ = TRUE;
-#line 396 "Application.c"
+#line 397 "Application.c"
 	} else {
 		const gchar* _tmp6_;
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp6_ = args[0];
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp0_ = g_strcmp0 (_tmp6_, "Downloading") == 0;
-#line 403 "Application.c"
+#line 404 "Application.c"
 	}
 #line 46 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	if (_tmp0_) {
-#line 407 "Application.c"
+#line 408 "Application.c"
 		UnityLauncherEntry* _tmp7_;
 		UnityLauncherEntry* _tmp8_;
 		const gchar* _tmp9_;
@@ -422,14 +423,14 @@ vala_counter_on_dropbox_status_change (ValaCounter* self,
 		_tmp10_ = self->priv->udock;
 #line 49 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		unity_launcher_entry_set_urgent (_tmp10_, FALSE);
-#line 426 "Application.c"
+#line 427 "Application.c"
 	} else {
 		const gchar* _tmp11_;
 #line 50 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		_tmp11_ = args[0];
 #line 50 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 		if (g_strcmp0 (_tmp11_, "Up") == 0) {
-#line 433 "Application.c"
+#line 434 "Application.c"
 			UnityLauncherEntry* _tmp12_;
 			UnityLauncherEntry* _tmp13_;
 #line 52 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
@@ -440,7 +441,7 @@ vala_counter_on_dropbox_status_change (ValaCounter* self,
 			_tmp13_ = self->priv->udock;
 #line 53 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 			unity_launcher_entry_set_urgent (_tmp13_, FALSE);
-#line 444 "Application.c"
+#line 445 "Application.c"
 		} else {
 			UnityLauncherEntry* _tmp14_;
 			UnityLauncherEntry* _tmp15_;
@@ -452,7 +453,7 @@ vala_counter_on_dropbox_status_change (ValaCounter* self,
 			_tmp15_ = self->priv->udock;
 #line 56 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 			unity_launcher_entry_set_urgent (_tmp15_, TRUE);
-#line 456 "Application.c"
+#line 457 "Application.c"
 		}
 	}
 #line 60 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
@@ -465,7 +466,7 @@ vala_counter_on_dropbox_status_change (ValaCounter* self,
 	_tmp19_ = args[1];
 #line 60 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	status_bar_new_status (_tmp17_, _tmp18_, _tmp19_);
-#line 469 "Application.c"
+#line 470 "Application.c"
 }
 
 
@@ -477,7 +478,7 @@ _vala_counter_on_dropbox_status_change_dropbox_status_changed (Dropbox* _sender,
 {
 #line 69 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	vala_counter_on_dropbox_status_change ((ValaCounter*) self, s, s_length1);
-#line 481 "Application.c"
+#line 482 "Application.c"
 }
 
 
@@ -487,7 +488,7 @@ _vala_counter_open_dropbox_folder_gtk_button_clicked (GtkButton* _sender,
 {
 #line 72 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	vala_counter_open_dropbox_folder ((ValaCounter*) self);
-#line 491 "Application.c"
+#line 492 "Application.c"
 }
 
 
@@ -497,7 +498,7 @@ _vala_counter_open_settings_gtk_button_clicked (GtkButton* _sender,
 {
 #line 73 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	vala_counter_open_settings ((ValaCounter*) self);
-#line 501 "Application.c"
+#line 502 "Application.c"
 }
 
 
@@ -510,7 +511,7 @@ _vala_counter_on_close_gtk_widget_delete_event (GtkWidget* _sender,
 	result = vala_counter_on_close ((ValaCounter*) self);
 #line 78 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	return result;
-#line 514 "Application.c"
+#line 515 "Application.c"
 }
 
 
@@ -579,7 +580,25 @@ vala_counter_real_activate (GApplication* base)
 	g_signal_connect_object ((GtkWidget*) _tmp9_, "delete-event", (GCallback) _vala_counter_on_close_gtk_widget_delete_event, self, 0);
 #line 64 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	_g_object_unref0 (dropbox);
-#line 583 "Application.c"
+#line 584 "Application.c"
+}
+
+
+static gchar
+string_get (const gchar* self,
+            glong index)
+{
+	gchar result = '\0';
+	gchar _tmp0_;
+#line 1180 "/usr/share/vala-0.40/vapi/glib-2.0.vapi"
+	g_return_val_if_fail (self != NULL, '\0');
+#line 1181 "/usr/share/vala-0.40/vapi/glib-2.0.vapi"
+	_tmp0_ = ((gchar*) self)[index];
+#line 1181 "/usr/share/vala-0.40/vapi/glib-2.0.vapi"
+	result = _tmp0_;
+#line 1181 "/usr/share/vala-0.40/vapi/glib-2.0.vapi"
+	return result;
+#line 602 "Application.c"
 }
 
 
@@ -590,17 +609,64 @@ vala_counter_main (gchar** args,
 	gint result = 0;
 	ValaCounter* app = NULL;
 	ValaCounter* _tmp0_;
-#line 83 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	gchar* s = NULL;
+	gchar* _tmp1_;
+	ValaCounter* _tmp2_;
+	const gchar* _tmp3_;
+	const gchar* _tmp4_;
+	ValaCounter* _tmp7_;
+#line 82 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	_tmp0_ = vala_counter_new ();
-#line 83 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+#line 82 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	app = _tmp0_;
+#line 83 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	_tmp1_ = g_strdup ("d");
+#line 83 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	s = _tmp1_;
 #line 84 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
-	result = g_application_run ((GApplication*) app, args_length1, args);
+	_tmp2_ = app;
 #line 84 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	_tmp3_ = s;
+#line 84 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	g_application_add_main_option ((GApplication*) _tmp2_, "dropbox", string_get (_tmp3_, (glong) 0), G_OPTION_FLAG_NONE, G_OPTION_ARG_STRING, "Open dropbox folder", "Open Dropbox folder");
+#line 85 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	_tmp4_ = args[1];
+#line 85 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	if (g_strcmp0 (_tmp4_, "-d") == 0) {
+#line 637 "Application.c"
+		const gchar* _tmp5_;
+#line 86 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+		_tmp5_ = args[2];
+#line 86 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+		if (g_strcmp0 (_tmp5_, "folder") == 0) {
+#line 643 "Application.c"
+			ValaCounter* _tmp6_;
+#line 87 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+			_tmp6_ = app;
+#line 87 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+			vala_counter_open_dropbox_folder (_tmp6_);
+#line 88 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+			result = 0;
+#line 88 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+			_g_free0 (s);
+#line 88 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+			_g_object_unref0 (app);
+#line 88 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+			return result;
+#line 657 "Application.c"
+		}
+	}
+#line 92 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	_tmp7_ = app;
+#line 92 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	result = g_application_run ((GApplication*) _tmp7_, args_length1, args);
+#line 92 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+	_g_free0 (s);
+#line 92 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	_g_object_unref0 (app);
-#line 84 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+#line 92 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	return result;
-#line 604 "Application.c"
+#line 670 "Application.c"
 }
 
 
@@ -608,9 +674,9 @@ int
 main (int argc,
       char ** argv)
 {
-#line 82 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
+#line 81 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	return vala_counter_main (argv, argc);
-#line 614 "Application.c"
+#line 680 "Application.c"
 }
 
 
@@ -625,7 +691,7 @@ vala_counter_class_init (ValaCounterClass * klass)
 	((GApplicationClass *) klass)->activate = (void (*) (GApplication*)) vala_counter_real_activate;
 #line 3 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	G_OBJECT_CLASS (klass)->finalize = vala_counter_finalize;
-#line 629 "Application.c"
+#line 695 "Application.c"
 }
 
 
@@ -634,7 +700,7 @@ vala_counter_instance_init (ValaCounter * self)
 {
 #line 3 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	self->priv = VALA_COUNTER_GET_PRIVATE (self);
-#line 638 "Application.c"
+#line 704 "Application.c"
 }
 
 
@@ -650,7 +716,7 @@ vala_counter_finalize (GObject * obj)
 	_g_object_unref0 (self->priv->udock);
 #line 3 "/home/rodrigo/Public/dropboxgui/src/Application.vala"
 	G_OBJECT_CLASS (vala_counter_parent_class)->finalize (obj);
-#line 654 "Application.c"
+#line 720 "Application.c"
 }
 
 
