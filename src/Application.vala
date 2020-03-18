@@ -22,7 +22,7 @@ public class ValaCounter : Gtk.Application {
         settings_window.show_all();
     }
 
-    private void open_dropbox_folder () {
+    public void open_dropbox_folder () {
         try {
             AppInfo.launch_default_for_uri ("file:///home/rodrigo/Dropbox", null);
         } catch (GLib.Error e) {
@@ -60,7 +60,7 @@ public class ValaCounter : Gtk.Application {
         main_window.status_bar.new_status(args[0], args[1]);
     }
 
-
+ 
     protected override void activate() {
         udock = Unity.LauncherEntry.get_for_desktop_id("com.github.rbribeiro.dropboxgui.desktop");
 
@@ -76,11 +76,19 @@ public class ValaCounter : Gtk.Application {
         add_window (main_window);
         
         main_window.delete_event.connect ( on_close);
-
     }
 
     public static int main(string[] args) {
         var app = new ValaCounter ();
+        string s = "d";
+        app.add_main_option ("dropbox", s[0], GLib.OptionFlags.NONE, GLib.OptionArg.STRING, "Open dropbox folder", "Open Dropbox folder");
+        if(args[1] == "-d") {
+            if(args[2] == "folder") {
+                app.open_dropbox_folder ();
+                return 0;
+            }
+            
+        }
         return app.run (args);
     }
 }
