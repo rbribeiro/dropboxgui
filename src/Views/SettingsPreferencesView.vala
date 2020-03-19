@@ -7,7 +7,8 @@ public class SettingsPreferencesPage : Granite.SimpleSettingsPage {
                 display_widget : new Granite.Widgets.Avatar.from_file (avatar, 32),
                 title : "Preferences",
                 description : "User preferences",
-                status : user_name
+                status : user_name,
+                header : "User Settings"
             );
 
         }
