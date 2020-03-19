@@ -2,11 +2,13 @@ public class SettingsDropboxPage : Granite.SimpleSettingsPage {
     
     public SettingsDropboxPage () {
         Object (
-            Icon : "system-preferences",
+            icon_name : "preferences-system",
             title : "Dropbox Settings",
-            header : "Advanced",
-            description : "Desc"
-        )
+            header : "Advanced Settings",
+            description : "Desc",
+            status : "Searching...",
+            activatable : true
+        );
     }
     
     construct {
