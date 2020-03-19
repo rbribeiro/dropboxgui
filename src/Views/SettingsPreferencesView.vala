@@ -13,7 +13,7 @@ public class SettingsPreferencesPage : Granite.SimpleSettingsPage {
         }
 
         construct {
-
+            
             var utils =  new Utils();
 
             var gtk_settings = Gtk.Settings.get_default ();
@@ -23,6 +23,8 @@ public class SettingsPreferencesPage : Granite.SimpleSettingsPage {
 
             var startup_label = new Gtk.Label ("Run on startup ");
             var startup_swtich = new Gtk.Switch ();
+            startup_swtich.active = is_autostart();
+            startup_swtich.state_set.connect ( toggle_autostart);
 
 
             var theme_label = new Gtk.Label ("Theme mode");
@@ -51,5 +53,35 @@ public class SettingsPreferencesPage : Granite.SimpleSettingsPage {
             content_area.add (grid);
 
 
+        }
+        
+        private bool is_autostart () {
+            string home = Environment.get_home_dir();
+            string desktop_file_name = "com.github.rbribeiro.dropboxgui.desktop";
+            GLib.File file = GLib.File.new_for_path( home+"/.config/autostart/"+desktop_file_name);
+            
+            return file.query_exists (); 
+            
+        }
+        
+        private bool toggle_autostart (bool s) {
+            string home = Environment.get_home_dir();
+            
+            string stdout, stderr;
+            int exit_status;
+            string desktop_file_name = "com.github.rbribeiro.dropboxgui.desktop";
+            string config_path = home+"/.config/autostart/"+desktop_file_name;
+            string schemas_path = "/usr/share/applications/"+desktop_file_name;
+           
+            
+            if(s) {
+                string cp_cmd = "cp "+schemas_path+" "+config_path;
+                 
+                Process.spawn_command_line_sync (cp_cmd, out stdout, out stderr, out exit_status);
+                return false;
+            } else {
+                Process.spawn_command_line_sync ("rm "+config_path);
+                return false;
+            }
         }
 }
