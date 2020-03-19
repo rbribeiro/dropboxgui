@@ -9,6 +9,7 @@
         'src/Views/ShareView.vala',
         'src/Views/SettingsView.vala',
         'src/Views/SettingsPreferencesView.vala',
+        'src/Views/SettingsDropboxView.vala',
         'src/Views/MainWindowView.vala',
         'src/Widgets/StatusBar.vala',
         'src/Services/Dropbox.vala',
